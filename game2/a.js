@@ -48,10 +48,10 @@ a.protos.o.draw      = function(    ) {};
 a.protos.o.mousedown = function(x, y) { return false; };
 a.protos.o.keydown   = function( key) { return false; };
 
-a.protos.t             = Object.create(a.protos.o);
-//a.protos.t.constructor = a.protos.t;
+a.protos.text             = Object.create(a.protos.o);
+//a.protos.text.constructor = a.protos.text;
 
-a.protos.t.draw = function() {
+a.protos.text.draw = function() {
   const text = this.text || '';
   const x    = this.x    || a.canvas.width / 2.0; 
   const y    = this.y    || a.canvas.height / 2.0;
@@ -61,7 +61,7 @@ a.protos.t.draw = function() {
 };
 
 a.text = function(text, x, y, font) {
-  const t = Object.create(a.protos.t);
+  const t = Object.create(a.protos.text);
   t.text = text || '';
   t.x    = x    || a.canvas.width  / 2.0; 
   t.y    = y    || a.canvas.height / 2.0;

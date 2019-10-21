@@ -1,0 +1,83 @@
+<style>
+* {
+  border-width: 1px;
+  border-color: green;
+  border-style: dashed;
+}
+body {
+  margin  : 0px;
+  padding : 0px;
+}
+</style>
+
+<canvas id="fps" width="400" height="300" />
+
+<script>
+(function() {
+  const canvas = document.getElementById('fps');
+  const ctx    = canvas.getContext('2d');
+
+  function createText(text, x, y, color, font) {
+    let o = {
+      text  : text  ,
+      x     : x     ,
+      y     : y     ,
+      color : color ,
+      font  : font
+    };
+    o.draw = function(t) {
+      ctx.fillStyle = this.color;
+      ctx.font      = this.font;
+      ctx.fillText(this.text, this.x, this.y);
+    }
+    return o;
+  }
+
+  function createBox(x, y, w, h, color) {
+    let o = {
+      x     : x     ,
+      y     : y     ,
+      w     : w     ,
+      h     : h     ,
+      color : color 
+    };
+    o.draw = function(t) {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
+    return o;
+  }
+
+
+  const helloText = createText("Helloooo", 20, 50, 'orange', '30px Arial');
+  const byeText   = createText("Bye bye", 200, 150, 'pink', '20px Arial');
+  const blueBox   = createBox(100, 120, 40, 60, 'blue');
+
+  let t = performance.now() / 1000;
+  function draw(millis) {
+    // compute elapsed time dt
+    const dt = millis / 1000 - t;
+    t = millis / 1000;
+
+    // clear viewport
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // draw the game objects
+    helloText.draw(dt);
+    byeText.draw(dt);
+    blueBox.draw(dt);
+
+/*
+    x += 145 * dt;
+    y += 100 * dt;
+*/
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+
+})();
+</script>
+

@@ -8,15 +8,37 @@
       margin  : 0px;
       padding : 0px;
     }
+    canvas {
+      position : fixed ;
+      top      : 0     ;
+      left     : 0     ;
+    }
   </style>
 </head>
 
 <body>
-  <canvas id="game" width="500" height="360" />
+  <canvas id="game" width="700" height="420"></canvas>
+  <h1>This is a title</h1>
   <script src="a.js"></script>
   <script>
     (function() {
-      a.objs.push(new a.Missile());
+      const canvas = document.getElementById("game");
+      canvas.addEventListener('click', function(e) {
+        a.objs.push(new a.Missile(e.y));
+      });
+
+      a.enemies = [];
+      function enemy() {
+        let x = 300 + Math.random() * 300;
+        let y = 70 + Math.random() * (canvas.height - 70);
+        let w = 30;
+        let h = 30;
+        const box = new a.Box(x, y, w, h, 'green');
+        a.objs.push(box);
+        a.enemies.push(box);
+        setTimeout(enemy, 1000 + Math.random() * 4000);
+      }
+      setTimeout(enemy, 2000);
     })();
   </script>
 </body>

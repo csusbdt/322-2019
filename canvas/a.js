@@ -2,7 +2,7 @@
   window.a = {}; // application object
 
   const canvas = document.getElementById('game');
-  const ctx    = canvas.getContext('2d');
+  const ctx    = canvas.getContext('2d', { alpha: false });
 
   function Text(text, x, y, color, font) {
     this.text  = text  || ''           ;
@@ -27,21 +27,43 @@
   }
 
   Box.prototype.draw = function(dt) {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.w, this.h);
+    if (this.hasOwnProperty('death')) {
+      this.death -= dt;
+    } else {
+      this.y += 100 * dt;
+    }
+    if (this.y > canvas.height) {
+      a.objs    = a.objs.filter(function(item) { return item !== this; });
+      a.enemies = a.enemies.filter(function(item) { return item !== this; });
+    } else {
+      ctx.fillStyle = this.color;
+      ctx.fillRect(this.x, this.y, this.w, this.h);
+    }
   }
 
-  function Missile() {
+  function Missile(y) {
     this.x = 0;
-    this.y = 100;
-    this.w = 50;
-    this.h = 50;
+    this.y = y;
+    this.w = 70;
+    this.h = 20;
   }
 
   Missile.prototype.draw = function(dt) {
     this.x += 200 * dt;
     ctx.fillStyle = '#000000';
     ctx.fillRect(this.x, this.y, this.w, this.h);
+    for (let i = 0; i < a.enemies.length; ++i) {
+      let e = a.enemies[i];
+      if (
+        e.x < this.x + this.w &&
+        e.x + e.w > this.x    &&
+        e.y < this.y + this.h &&
+        e.y + e.h > this.y
+      ) {
+        e.death = 3;
+      }
+    }
+    a.enemies = a.enemies.filter(function(e) { return typeof(e.death) === 'undefined'; });
   }
 
   let t = 0;
@@ -53,14 +75,16 @@
     t = millis / 1000;
 
     // clear viewport
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //ctx.fillStyle = 'white';
+    //ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // draw the game objects
-    for (let i = 0; i < objs.length; ++i) {
-      const o = objs[i];
+    for (let i = a.objs.length - 1; i >= 0; --i) {
+      const o = a.objs[i];
       o.draw(dt);
     }
+    a.objs = a.objs.filter(function(o) { return !o.hasOwnProperty('death') || o.death > 0; });
 
     // continue loop
     requestAnimationFrame(loop);

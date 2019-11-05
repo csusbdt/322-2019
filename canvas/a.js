@@ -1,8 +1,9 @@
-(function() {
-  window.a = {}; // application object
+console.log("1");
 
-  const canvas = document.getElementById('game');
-  const ctx    = canvas.getContext('2d', { alpha: false });
+//window.addEventListener('load', function() {
+(function() {
+  console.log("1.5");
+  const ctx    = a_canvas.getContext('2d', { alpha: false });
 
   function Text(text, x, y, color, font) {
     this.text  = text  || ''           ;
@@ -32,7 +33,7 @@
     } else {
       this.y += 100 * dt;
     }
-    if (this.y > canvas.height) {
+    if (this.y > a_canvas.height) {
       a.objs    = a.objs.filter(function(item) { return item !== this; });
       a.enemies = a.enemies.filter(function(item) { return item !== this; });
     } else {
@@ -76,8 +77,8 @@
 
     // clear viewport
     //ctx.fillStyle = 'white';
-    //ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.fillRect(0, 0, a_canvas.width, a_canvas.height);
+    ctx.clearRect(0, 0, a_canvas.width, a_canvas.height);
 
     // draw the game objects
     for (let i = a.objs.length - 1; i >= 0; --i) {

@@ -1,14 +1,12 @@
 <html>
 <head>
   <style>
-    * {
-      border: 1px green dashed;
-    }
     body {
       margin  : 0px;
       padding : 0px;
     }
-    canvas {
+    #a_canvas {
+      border: 1px green dashed;
       position : fixed ;
       top      : 0     ;
       left     : 0     ;
@@ -17,20 +15,20 @@
 </head>
 
 <body>
-  <canvas id="game" width="700" height="420"></canvas>
-  <h1>This is a title</h1>
-  <script src="a.js"></script>
+  <canvas id="a_canvas" width="700" height="420"></canvas>
+  <script src="a.js" sync></script>
   <script>
+    window.a = {}; // application object
+    console.log("2");
     (function() {
-      const canvas = document.getElementById("game");
-      canvas.addEventListener('click', function(e) {
+      a_canvas.addEventListener('click', function(e) {
         a.objs.push(new a.Missile(e.y));
       });
 
       a.enemies = [];
       function enemy() {
-        let x = 300 + Math.random() * 300;
-        let y = 70 + Math.random() * (canvas.height - 70);
+        let x = 100 + Math.random() * 500;
+        let y = 0 + Math.random() * (a_canvas.height - 200);
         let w = 30;
         let h = 30;
         const box = new a.Box(x, y, w, h, 'green');

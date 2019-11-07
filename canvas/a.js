@@ -1,12 +1,9 @@
-console.log("1");
-
-//window.addEventListener('load', function() {
 (function() {
-  console.log("1.5");
-  const ctx    = a_canvas.getContext('2d', { alpha: false });
+  window.a   = {}; // application object
+  const ctx  = a_canvas.getContext('2d'); //, { alpha: false });
 
   function Text(text, x, y, color, font) {
-    this.text  = text  || ''           ;
+    this.text  = text  || ''           ; 
     this.x     = x     || 0            ;
     this.y     = y     || 0            ;
     this.color = color || "#000000"    ;
@@ -22,8 +19,8 @@ console.log("1");
   function Box(x, y, w, h, color) {
     this.x     = x     || 0            ;
     this.y     = y     || 0            ;
-    this.w     = w     || 100          ;
-    this.h     = h     ||  50          ;
+    if (w === undefined) this.w = 100; else this.w = w;
+    if (h === undefined) this.h = 100; else this.h = h;
     this.color = color || "#000000"    ;
   }
 
@@ -31,7 +28,7 @@ console.log("1");
     if (this.hasOwnProperty('death')) {
       this.death -= dt;
     } else {
-      this.y += 100 * dt;
+      this.y += 100 * dt; // dt approx === .017 for 60 fps
     }
     if (this.y > a_canvas.height) {
       a.objs    = a.objs.filter(function(item) { return item !== this; });

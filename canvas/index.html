@@ -16,10 +16,8 @@
 
 <body>
   <canvas id="a_canvas" width="700" height="420"></canvas>
-  <script src="a.js" sync></script>
+  <script src="a.js"></script>
   <script>
-    window.a = {}; // application object
-    console.log("2");
     (function() {
       a_canvas.addEventListener('click', function(e) {
         a.objs.push(new a.Missile(e.y));

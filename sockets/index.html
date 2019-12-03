@@ -1,0 +1,19 @@
+<div>hi</div>
+
+<script>
+let sock = new WebSocket("ws://localhost:9998/path");
+
+sock.onopen = function() {
+  console.log("(2) I run when I get a connection to the server.");
+  sock.send("hi 1");
+  sock.send("hi 2");
+};
+
+sock.onmessage = function(event) {
+  console.log("(3) I run when I get a message from server.");
+}
+
+console.log("(1) I run first, and when page is loaded.");
+
+</script>
+
